@@ -2,7 +2,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-    //TODO static Scanner maybe Do some problems double check on it after Run the program
     static Scanner in = new Scanner(System.in);
     static String winner = "";
     public static void main(String[] args) {
@@ -31,10 +30,9 @@ public class Main {
         System.out.println("=====================================");
         System.out.println("        Let's Begin the Game!        ");
         System.out.println();
-        //TODO to Accept press 1 to decline press 2.
-        String win = board();
+        String result = board();
+        System.out.println(result);
     }
-    //TODO this board shuold return string that says who win the game with "(point) & name of the winner (Either Computer or player 1 )"
     public static String board(){
         String [][]board = {
                 {"1", "2", "3"},
@@ -42,7 +40,7 @@ public class Main {
                 {"7", "8", "9"},
         };
         winner = getWinner(board);
-        return winner;
+        return winner.equals("Tie") ? ("Game ended in Tie") : "\n{"+winner +"} wins the game!";
     }
     public static void showBoard(String [][]board){
         //show the board :
@@ -71,104 +69,79 @@ public class Main {
             //show the board :
             showBoard(board);
             //TODO while loop check the user validation input + Exception handling mismatch.
-            String userPosition ;
+            String position ;
             //message only if it's user turn
             if(turn == 'X'){
-                System.out.println("Enter a number from the board, make sure that number is shown in the board");
-                userPosition = in.nextLine();
+                System.out.println("Enter a number from the board");//I will check if the number is valid or no .
+                position = in.nextLine();
             }else{
-                userPosition = generateComputerRandomNumberFrom1To9();
+                position = generateComputerRandomNumberFrom1To9();
             }
-            if(validatPosition(turn ,userPosition, board)){
-                //TODO update the board here .. and check if the game is End(win tie) or still running by the while loop
-                for (int i = 0; i < board.length; i++) {
-                    for (int j = 0; j < board.length; j++) {
-                        if(userPosition.charAt(0) == board[i][j].charAt(0)){
-                            //update the board but before updating the board check who turn is now( {user = X} or {computer = O} )
-                            if(turn == 'X'){
-                                //update board by X char
-                                board[i][j]="X";
-                                //swap the turn
-                                turn = 'O';
-                            }else {
-                                board[i][j]="O";
-                                //swap the turn
-                                turn = 'X';
-                            }
-                        }
-                    }
+            if(validatPosition(turn ,position, board)){
+                //swapping the turn using ternary operator.
+                if(turn != 'X'){
+                    System.out.println("Computer(O) Selection board");
                 }
-
+                turn = (turn == 'X')?('O'):('X');
             }
-
-        }
+        }//while loop will break if and only if the game (END or Tie).
+        showBoard(board);
         return winner;
-
     }
     public static boolean validatPosition(char turn, String position , String [][]board){
         //TODO بالنسبة للكمبيوتر خليه يطلع راندوم نمبر وبعدها سويله بارس لسترنق وقارن ✅
         for (int i = 0; i < board.length;i++) {
             for (int j = 0; j < board.length;j++) {
-
-
                     //TODO لازم تضمن ان البوزشن ما يحط لك فيه اكس ولا واي
                     if(board[i][j].equals(position)){
-                        //update the board but before updating the board check who turn is now( {user = X} or {computer = O} )
-//                        if(turn == 'X'){
-//                            //update board by X char
-//                            board[i][j]="X";
-//                            return true;
-//                        }else {
-//                            board[i][j]="O";
-//                            return true;
-//                        }
 //                  updating method, you only need to check if the number consider as a valid number or not
-                        board[i][j] = String.valueOf(turn);//update statement .
-                        return true;
+                        board[i][j] = String.valueOf(turn);// then update statement .
+                        return true;//this will end the method
                     }
-                    if(turn == 'X'){
-                        System.out.println("Invalid move! This cell is already taken. Try again.");
-                    }
-                    //يعني استمر بالادخال الى ان يكون البوزشن المدخل غير محجوز في البورد والاستمرار يكون بالوايل لووب الموجوده في القيت وينر ميثود
             }
         }
+                    if(turn == 'X'){// if the user enter invalid position, this message will show up. and if the Computer generate invalid number this message will never show up .
+                        System.out.println("Invalid move! choose from the board number please >> Try again.");
+                    }
+                    //يعني استمر بالادخال الى ان يكون البوزشن المدخل غير محجوز في البورد والاستمرار يكون بالوايل لووب الموجوده في القيت وينر ميثود
         return false;
     }
     public static String generateComputerRandomNumberFrom1To9() {
         Random rand = new Random();
-        int number = rand.nextInt(9) + 1; // 1 to 9
-        return String.valueOf(number);    // Convert to String
+        return String.valueOf(rand.nextInt(9) + 1);    //generate number from 1 to 9 then Convert to String
     }
     public static boolean gameStatus(String [][]board){
         //decide weather the game is End (Win or Tie)
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                if(board[i][0].equals("X") && board[i][1].equals("X") && board[i][2].equals("X")){
-                    winner = "X";
-                    return false;
-                }else if(board[0][0].equals("X") && board[1][1].equals("X") && board[2][2].equals("X")){
-                    winner = "X";
-                    return false;
-                }else if(board[0][2].equals("X") && board[1][1].equals("X") && board[2][0].equals("X")){
-                    winner = "X";
-                    return false;
-                }else if(board[i][0].equals("O") && board[i][1].equals("O") && board[i][2].equals("O")){
-                    winner = "O";
-                    return false;
-                }else if(board[0][0].equals("O") && board[1][1].equals("X") && board[2][2].equals("O")){
-                    winner = "O";
-                    return false;
-                }else if(board[0][2].equals("O") && board[1][1].equals("O") && board[2][0].equals("O")){
-                    winner = "X";
-                    return false;
-                }//TODO باقي حالتين اما يكون القيم تعادل او ما انتهى اذا تعادل برجع فولس اذا لسى ما انتهى لازم ارجع ترو وهي الحاله الوحيده اللي ارجع فيها ترو
-                else if (board[i][j].matches("[OX]")) {
-                    winner = "Tie";
-                    return false;
+        for (int i = 0; i < 3; i++) {
+            // Check rows
+            if (board[i][0].equals(board[i][1]) && board[i][1].equals(board[i][2])) {
+                winner = board[i][0];
+                return false;
+            }
+            // Check columns
+            if (board[0][i].equals(board[1][i]) && board[1][i].equals(board[2][i])) {
+                winner = board[0][i];
+                return false;
+            }
+        }
+        // Check diagonals
+        if (board[0][0].equals(board[1][1]) && board[1][1].equals(board[2][2])) {
+            winner = board[0][0];
+            return false;
+        }
+        if (board[0][2].equals(board[1][1]) && board[1][1].equals(board[2][0])) {
+            winner = board[0][2];
+            return false;
+        }
+        // Check for tie (no numbers left)
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (!board[i][j].equals("X") && !board[i][j].equals("O")) {
+                    return true; // Game still running
                 }
             }
         }
-        //this true will return if and only if no tie no win .
-        return true;
+        winner = "Tie";
+        return false;
     }
 }
