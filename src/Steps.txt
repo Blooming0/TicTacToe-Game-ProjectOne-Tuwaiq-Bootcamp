@@ -1,0 +1,12 @@
+1- Welcooming the user .✅
+2- show the board .
+3- make the user select his position .
+4- check the position if valid or no .
+5- if valid continue, if not make him try to enter his position agine with a message show the valid positons .
+6- show the board agine with the position enterd from the user.
+7- make the computer play by generating random valid number .
+8- show the board with computer selection .
+9- every time you have to check either a cmoputer or the user win the game , Or its just Tie.
+10-checking by the Two Dimension array.
+11-if the game Done show the Board with message that indicate who win the game.
+
