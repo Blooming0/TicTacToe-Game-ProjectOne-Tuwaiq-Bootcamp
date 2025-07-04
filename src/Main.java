@@ -61,14 +61,10 @@ public class Main {
     }
 
     public static String getWinner(String [][]board){
-//        Scanner in = new Scanner(System.in);
-        //TODO method that decaide weather the game is still running or Not (win or tie).  gameStatus Method... .
-
         char turn = 'X';
         while(gameStatus(board)){
             //show the board :
             showBoard(board);
-            //TODO while loop check the user validation input + Exception handling mismatch.
             String position ;
             //message only if it's user turn
             if(turn == 'X'){
@@ -89,10 +85,8 @@ public class Main {
         return winner;
     }
     public static boolean validatPosition(char turn, String position , String [][]board){
-        //TODO بالنسبة للكمبيوتر خليه يطلع راندوم نمبر وبعدها سويله بارس لسترنق وقارن ✅
         for (int i = 0; i < board.length;i++) {
             for (int j = 0; j < board.length;j++) {
-                    //TODO لازم تضمن ان البوزشن ما يحط لك فيه اكس ولا واي
                     if(board[i][j].equals(position)){
 //                  updating method, you only need to check if the number consider as a valid number or not
                         board[i][j] = String.valueOf(turn);// then update statement .
